@@ -115,8 +115,9 @@ $previousDay = (Get-Date).AddDays(-1).ToString("yyyyMMdd")
 $logFile = Join-Path -Path $agDir -ChildPath "ctm/dailylog/diag_ctmag_$previousDay.log"
 if (Test-Path $logFile) {
     $pingInfo = Get-Content $logFile | Select-String -Pattern "EXECUTION ENDED" | Select-Object -Last 1
-    $pingFrom = ($pingInfo -split "FROM CONTROL-M SERVER:")[1] -split " " | Select-Object -First 1
-    $pingTo = ($pingInfo -split "TO LOCAL AGENT:")[1] -split " " | Select-Object -First 1
+    $pingDateTime = ($pingInfo -split "\s{2,}")[0]
+    $pingFrom = ($pingInfo -split "FROM CONTROL-M SERVER: ")[1] -split " " | Select-Object -First 1
+    $pingTo = ($pingInfo -split "TO LOCAL AGENT ")[1] -split " " | Select-Object -First 1
     $ctmPing = "$pingDateTime:$pingFrom:$pingTo"
 } else {
     $taskExecutedCount = "null"
