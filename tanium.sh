@@ -58,8 +58,9 @@ if [[ "$confDataFiles" != "" ]]; then
                         module=$(echo $line | awk '{print $1}')
                         version=$(echo $line | awk '{print $3}')
                         installDate=$(echo $line | awk '{print $4}')
-                        if [[ "$module" =~ ^[A-Z0-9]+$ && "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-                            if [[ -z ${moduleVersions[$module]} ]] || [[ $(echo -e "${moduleVersions[$module]}\n$version" | sort -V | tail -1) == "$version" ]]; then
+                        if [[ "$module" =~ ^[A-Z0-9]{5}\. && "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+                            moduleName=${module:2:3}
+                            if [[ -z ${moduleVersions[$moduleName]} ]] || [[ $(echo -e "${moduleVersions[$moduleName]}\n$version" | sort -V | tail -1) == "$version" ]]; then
                                 moduleVersions[$module]=$version
                                 moduleInstallDate[$module]=$installDate
                             fi
